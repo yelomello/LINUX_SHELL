@@ -1,0 +1,147 @@
+1)----------The System-------------------------
+There is an infinite loop in the shell with three functions:-
+a) Inputs commands from the user
+b) Executes the commands
+c) After the execution, frees memory
+
+- The user can enter the commands each time after the prompt Divyam's Shell>>>.
+- Input is handled using a built-in getline function. 
+- Arguments are then separated and stored in an array of strings.
+- This array is sent to the execute function that can call all the commands implemented.
+- This function always returns a value!=0 unless we call exit.
+- free() is used to free the memory
+- One helper function is present in the code.
+
+
+
+
+2)------------Commands---------------------------
+a) Internal Commands - cd, echo, pwd
+b) External Commands - ls, cat, date, rm, mkdir
+
+
+---> cd 
+Options available - "-L","~"
+"-L" - Signals to follow symbolic links. This is the default state of cd.
+" ~ " - Takes user to home directory
+
+Errors handled - 
+a) When more than one directory is mentioned
+b) When directory does not exist
+
+Assumption - 
+When no directory is there mentioned, then it turns to the home directory
+
+
+---> echo
+Options available - "-n","*"
+"-n" - No newline added to the end
+"*" - content of the current directory is printed
+
+Errors handled -
+a) When input command is invalid
+b) In "*", precautions have been taken to prevent errors or leaks
+
+Assumption - 
+If no argument follows echo, a newline is printed
+
+
+
+---> pwd
+Options available - "P","-L"
+"-P" - displays without symlinks
+"-L" - does not resolve symlinks
+
+Errors handled - 
+a) When input command is invalid
+b) Diverse lengths of command are handled
+
+Assumption -
+For "-P" and "-L" general config is followed
+
+
+---> ls
+Options available - "-1","-a"
+"-1" - content of the directory is displayed line-by-line
+"-a" - prints the files and directories whose names start with a ‘.’
+
+Errors handled - 
+a) When diretory can't be opened 
+b) When the input is a fila and not a directory
+c) Incorrect input format
+
+Assumptions - 
+More than one flag can be handled
+
+
+
+---> cat
+Options available - "-n","-E"
+"-n" - numbers the lines
+"-E" - displays line ends
+
+Errors handled - 
+a) When operands not provided correctly
+b) When file is not there
+c) Incorrect input format
+
+Assumption - 
+More than one flag can be handled
+
+
+
+---> date
+Options available - "-u"/"--utc"/"--universal","--help"
+"-u"/"--utc"/"--universal" - prints utc time
+"--help" - prints the funcitonality
+
+Errors handled - 
+a) Incorrect input format
+b) Leaks are prevented
+
+
+
+---> rm
+Options available - "-i","-v"
+"-i" - while deleting files, an interface is provided
+"-v" - prints the deleted file
+
+Errors handled -
+a) Incorrect input format
+b) Insufficient operands
+
+Assumption - 
+More than one flag can be handled
+
+
+
+---> mkdir
+Options available - "-v","-P"
+"-v" - prints the directory created
+"-P" - no error if present, creates parent as needed.
+
+Errors handled - 
+a) Incorrect input format
+b) Directory already exists
+c) Insufficient operands
+
+Assumption - 
+More than one flag can be handled
+
+
+3)---------------TestCase------------------
+>>> pwd
+>>> ls -1 -a
+>>> date -u
+>>> cd ..
+>>> mkdir flder1 flder2 flder3 -v
+>>> ls -a -1
+>>> cd flder1
+>>> echo hello
+>>> echo -n hello
+>>> pwd -P
+>>> ls -a
+>>> cd ..
+>>> rm file1.txt file2.txt -i -v
+>>> cat file3.txt -E
+>>> cat file3.txt -n
